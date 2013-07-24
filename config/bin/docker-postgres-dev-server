@@ -2,18 +2,20 @@
 
 set -e
 
+echo "----------------------------------------------------------------"
+echo "PostgreSQL 9.2 Development Docker Container"
+echo
+echo "Username: pgdeveloper"
+echo "Password: pgdeveloper"
+echo "Database: pgdeveloper"
+echo
+echo "Connect with psql:"
+echo "  psql -h localhost -p <port> -U pgdeveloper -d pgdeveloper"
+echo
+echo "Find the mapped <port> with Docker:"
+echo " docker ps"
+echo "----------------------------------------------------------------"
+
 /etc/init.d/postgresql start
-
-dev_username=`pwgen -s 20 --no-numerals --no-capitalize 1`
-dev_password=`pwgen -s 20 1`
-dev_dbname=`pwgen -s 20 --no-numerals --no-capitalize 1`
-
-su postgres -c "createuser -s $dev_username"
-su postgres -c "psql -c \"ALTER ROLE $dev_username PASSWORD '$dev_password'\""
-su postgres -c "createdb -O $dev_username -EUTF-8 $dev_dbname"
-
-echo "Username: $dev_username"
-echo "Password: $dev_password"
-echo "DB: $dev_dbname"
 
 tail -f /var/log/postgresql/postgresql-9.2-main.log

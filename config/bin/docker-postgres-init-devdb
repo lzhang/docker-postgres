@@ -4,8 +4,8 @@ set -e
 
 /etc/init.d/postgresql start
 
-su postgres -c "createuser -s pgdeveloper"
-su postgres -c "psql -c \"ALTER ROLE pgdeveloper PASSWORD 'pgdeveloper'\""
-su postgres -c "createdb -O pgdeveloper -EUTF-8 pgdeveloper"
+su postgres -c "psql -c \"CREATE ROLE app LOGIN PASSWORD 'app'\""
+su postgres -c "psql -c \"CREATE SCHEMA app AUTHORIZATION app\""
+su postgres -c "psql -c \"create extension pgcrypto\""
 
 /etc/init.d/postgresql stop

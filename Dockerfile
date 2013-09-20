@@ -9,7 +9,7 @@ ADD config /
 
 RUN apt-key add /tmp/pgdg-apt-key.asc
 RUN apt-get update
-RUN apt-get install -y pgdg-keyring postgresql-9.2 postgresql-contrib-9.2 pwgen
+RUN apt-get install -y pgdg-keyring postgresql-9.3 postgresql-contrib-9.3 pwgen
 
 ADD config-stage2 /
 

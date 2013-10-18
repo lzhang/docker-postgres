@@ -1,20 +1,18 @@
-FROM   ubuntu:precise
-MAINTAINER   Ted Dziuba "tdziuba@ebay.com"
+FROM ubuntu:precise
+MAINTAINER Lewis Zhang "lewiszhang@gmail.com"
 
-RUN apt-get update
-RUN apt-get install -y wget language-pack-en
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get install -y curl language-pack-en
 RUN locale-gen en_US
-
-ADD config /
-
-RUN apt-key add /tmp/pgdg-apt-key.asc
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 RUN apt-get update
-RUN apt-get install -y pgdg-keyring postgresql-9.3 postgresql-contrib-9.3 pwgen
-
-ADD config-stage2 /
-
+RUN apt-get install -y postgresql-9.3 postgresql-contrib-9.3
+ADD ./etc /etc
+ADD ./bin /bin
+RUN chown -R postgres:postgres /etc/postgresql
 RUN /bin/docker-postgres-init-devdb
+RUN service postgresql stop
 
-
-CMD /bin/docker-postgres-dev-server
 EXPOSE 5432
+CMD docker-postgres-dev-server

@@ -6,6 +6,7 @@ set -e
 
 su postgres -c "psql -c \"CREATE ROLE app LOGIN PASSWORD 'app'\""
 su postgres -c "psql -c \"CREATE SCHEMA app AUTHORIZATION app\""
+su postgres -c "createdb -O app -E UTF-8 -T template0 app"
 su postgres -c "psql -c \"create extension pgcrypto\""
 
 /etc/init.d/postgresql stop

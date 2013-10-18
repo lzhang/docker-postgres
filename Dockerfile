@@ -16,5 +16,4 @@ RUN service postgresql stop
 
 EXPOSE 5432
 USER postgres
-ENTRYPOINT ["pg_ctl", "-D", "/var/lib/postgres"]
-CMD ["start"]
+ENTRYPOINT ["/usr/lib/postgresql/9.3/bin/postgres", "-D", "/var/lib/postgres", "-c", "config_file=/etc/postgresql/9.3/main/postgresql.conf"]

@@ -15,4 +15,6 @@ RUN /bin/docker-postgres-init-devdb
 RUN service postgresql stop
 
 EXPOSE 5432
-CMD docker-postgres-dev-server
+USER postgres
+ENTRYPOINT ["pg_ctl", "-D", "/var/lib/postgres"]
+CMD ["start"]
